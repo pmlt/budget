@@ -8,6 +8,7 @@ import Data.Time.Calendar;
 import Data.Time.LocalTime;
 import Data.Time.Format;
 import System.Locale;
+import Text.Printf (printf);
 
 -- Data definitions
 data BudgetRecord = BudgetRecord {
@@ -36,8 +37,8 @@ tags = tags' []
 
 -- | Accumulator version of tags
 tags' :: [Tag] -> Budget -> [Tag]
-tags' acc [] = acc
-tags' acc (x:xs) = tags' ((brTags x) `intersect` acc) xs
+tags' acc [] = sort $ Data.List.nub acc
+tags' acc (x:xs) = tags' (acc ++ (brTags x)) xs
 
 -- | Sum of all amounts in Budget
 sum :: Budget -> Double
@@ -68,6 +69,10 @@ purchased p b = [ x | x <- b, p == (brPurchaser x) ]
 -- | Extract entries owned by one person
 owned :: Person -> Budget -> Budget
 owned o b = [ x | x <- b, o `elem` (brOwners x) ]
+
+-- | Format $ amount
+fmt :: Double -> String
+fmt a = printf "%8.2f $" a
 
 -- Create budget from CSV
 mkBudgetFromCSV :: CSV -> Either [ParseError] Budget

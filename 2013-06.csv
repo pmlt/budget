@@ -1,17 +1,59 @@
-"#Date","#Responsable","#Acheteur","#Montant","#Description","#Tags"
-2013-06-29,"V,P","V","69.75","SAQ","Épicerie"
-2013-06-29,"V,P","V","79.86","Loblaws","Épicerie"
-2013-06-23,"V,P","V","57.28","Loblaws","Épicerie"
-2013-06-21,"V,P","V","46.1","Loblaws","Épicerie"
-2013-06-19,"V,P","V","59.17","Loblaws","Épicerie"
-2013-06-03,"V,P","V","15.64","SAQ","Épicerie"
-2013-06-03,"V,P","V","30.53","Mondou","Animaux"
-2013-06-05,"V,P","V","28.17","Loblaws","Épicerie"
-2013-06-10,"V,P","V","27.1","SAQ","Épicerie"
-2013-06-11,"V,P","V","28.04","Loblaws","Épicerie"
-2013-06-12,"V,P","V","22.97","Simons","Maison"
-2013-06-17,"V,P","V","23.04","Marché JT","Épicerie"
-2013-06-24,"V,P","V","21.95","Loblaws","Épicerie"
-2013-06-01,"V,P","V","94.6","Loblaws","Épicerie"
-2013-06-07,"V,P","V","33.6","Loblaws","Épicerie"
-2013-06-08,"V,P","V","177.95","Metro","Épicerie"
+#Date,#Responsable,#Acheteur,#Montant,#Description,#Tags
+2013-06-29,"V,P",V,69.75,SAQ,Épicerie
+2013-06-29,"V,P",V,79.86,Loblaws,Épicerie
+2013-06-23,"V,P",V,57.28,Loblaws,Épicerie
+2013-06-21,"V,P",V,46.1,Loblaws,Épicerie
+2013-06-19,"V,P",V,59.17,Loblaws,Épicerie
+2013-06-03,"V,P",V,15.64,SAQ,Épicerie
+2013-06-03,"V,P",V,30.53,Mondou,Animaux
+2013-06-05,"V,P",V,28.17,Loblaws,Épicerie
+2013-06-10,"V,P",V,27.1,SAQ,Épicerie
+2013-06-11,"V,P",V,28.04,Loblaws,Épicerie
+2013-06-12,"V,P",V,22.97,Simons,Maison
+2013-06-17,"V,P",V,23.04,Marché JT,Épicerie
+2013-06-24,"V,P",V,21.95,Loblaws,Épicerie
+2013-06-01,"V,P",V,94.6,Loblaws,Épicerie
+2013-06-07,"V,P",V,33.6,Loblaws,Épicerie
+2013-06-08,"V,P",V,177.95,Metro,Épicerie
+2013-06-01,P,P,3.95,Frais fixes d'utilisation,Frais
+2013-06-03,"V,P",P,74.98,Assurance automobile /DESJARDINS ASS. GENERALES,
+2013-06-04,"V,P",P,625,Chèque,
+2013-06-04,P,P,-923.01,Paie /TURBULENT MEDIA,
+2013-06-06,P,P,60,Retrait au GA /MARCHE JEAN TALON,
+2013-06-11,P,P,-767.85,Dépôt au GA /PHARMAPRIX,Gouvernement
+2013-06-17,P,P,-958.4,Paie /TURBULENT MEDIA,Turbulent
+2013-06-17,P,P,-25,Virement reçu de /MATHIEU CLAVET     /Lan,Remboursement
+2013-06-20,P,P,100,Retrait au GA /CD DE L'EST DU PLATEAU,Retrait
+2013-06-21,P,P,-0.82,Intérêts CELI,Épargne
+2013-06-01,"V,P",P,26.59,Shamrock,Épicerie
+2013-06-05,P,P,21.12,Valve Software,Divertissement
+2013-06-05,P,P,62,Shish Taouk,Restaurant
+2013-06-06,"V,P",P,7.99,Netflix,Comptes/Netflix
+2013-06-06,"V,P",P,27.84,Loblaws,Épicerie
+2013-06-06,P,P,48.92,Shell,Transport
+2013-06-06,P,P,36.72,eBay,Spécial Vanessa
+2013-06-06,P,P,16.26,eBay,Spécial Vanessa
+2013-06-06,P,P,18.54,eBay,Spécial Vanessa
+2013-06-09,P,P,191.76,ORCHESTRE SYMPHONIQUE MONTREAL QC,Cadeau Vanessa
+2013-06-10,"V,P",P,3.15,PAYPAL *LAST FM 35314369001 GB,Comptes/Last.fm
+2013-06-12,P,P,4.88,PRESSE CAFE QPS MONTREAL QC,Restaurant
+2013-06-13,"V,P",P,57.43,LA BOITE ELECTRONIQUE BROSSARD QC,Comptes/ElectronicBox
+2013-06-13,"V,P",P,8.45,LOBLAWS #8345 MONTREAL QC,Épicerie
+2013-06-14,P,P,60,SIEGE SOCIAL MONTREAL QCCA,SIEGE SOCIAL MONTREAL QCCA
+2013-06-15,P,P,51.74,TELUS MOBILITY PREAUTH CALGARY AB,Comptes/Telus
+2013-06-15,P,P,77,TELMATIK/OPUS CARD BOUCHERVILLE QC,Transport
+2013-06-16,"V,P",P,14.51,BOULANGERIE PREMIERE MOISMONTREAL QC,Restaurant
+2013-06-18,"V,P",P,22,COUCHETARD #111 LAVAL QC,Épicerie
+2013-06-19,P,P,12.08,RESTAURANT LE VIEUX ST. LMONTREAL QC,Restaurant
+2013-06-20,P,P,57.48,BEST BUY #962 MONTREAL QC,Divertissement
+2013-06-20,P,P,70.06,ROASTERS ROTISSERIE ET BAMONTREAL QC,Restaurant
+2013-06-21,"V,P",P,15.3,SAQ23019 DULUTH MONTREAL QC,Épicerie
+2013-06-22,P,P,53.52,ROTISSERIE ST HUBERT 116 LAVAL QC,Restaurant
+2013-06-23,"V,P",P,22.43,GROUPE RENE LALIBERTE INCLAVAL QC,Épicerie
+2013-06-23,"V,P",P,68.11,JEAN COUTU #119 Q3J LAVAL QC,Épicerie
+2013-06-24,P,P,48.36,"VALVE SOFTWARE 425-8899642 WA",Divertissement
+2013-06-25,P,P,9.53,MCDONALD'S #29057 Q04 MONTREAL QC,Restaurant
+2013-06-27,P,P,9.19,THAI EXPRESS MONTREAL QC,Restaurant
+2013-06-27,P,P,82,LAB COMPTOIR A COCKTAILS MONTREAL QC,Cadeau Vanessa
+2013-06-29,P,P,9,STATIONNEMENT DE MONTR MONTREAL QC,Transport
+2013-06-29,P,P,110,PAYPAL *MCUMALL INC 4029357733 BC,Spécial Vanessa

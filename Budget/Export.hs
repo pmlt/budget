@@ -1,10 +1,12 @@
 module Budget.Export where
 import Budget;
 import Budget.Debt;
+import Text.Printf (printf)
 
 list'tags :: [Tag] -> Budget -> String
-list'tags ts b = unlines $ [ t ++ " : " ++ (sum' t) | t <- ts ]
-  where sum' t = show $ Budget.sum $ tagged t b
+list'tags ts b = unlines $ [ line t | t <- ts ]
+  where sumstr t = fmt $ Budget.sum $ tagged t b
+        line t = printf "%30s : %s" t (sumstr t)
 
 report :: Person -> Budget -> String
 report p b =  "Revenues:\n\n" ++ revS ++

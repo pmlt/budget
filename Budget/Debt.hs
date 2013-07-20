@@ -1,5 +1,7 @@
 module Budget.Debt where
-import Budget (Person,BudgetRecord,Budget,brOwners,brPurchaser,brAmount)
+import Budget (Person,BudgetRecord,Budget,brOwners,brPurchaser,brAmount,fmt)
+import Data.List (nub)
+import Text.Printf (printf)
 
 data DebtRecord = DebtRecord {
     drCreditor :: Person
@@ -29,10 +31,10 @@ debt' d (x:xs)
 
 -- | Sum records of debt with same creditor/debtor into single record
 compress :: Debt -> Debt
-compress dl = [ DebtRecord c d (sum' c d) | c <- creds, d <- dbts ]
+compress dl = [ DebtRecord c d (sum' c d) | c <- creds, d <- dbts, c /= d ]
   where
-    creds = [ drCreditor x | x <- dl ]
-    dbts = [ drDebtor x | x <- dl ]
+    creds = nub [ drCreditor x | x <- dl ]
+    dbts = nub [ drDebtor x | x <- dl ]
     sum' c d = foldr ((+).drAmount) 0.0 [ dr | dr <- dl, c == drCreditor dr, d == drDebtor dr ]
 
 -- | Extract debts with specific debtor
@@ -55,5 +57,5 @@ owed d c dbt = foldl f 0 dbt
 report :: Debt -> String
 report dbt = unlines [ f dr | dr <- subDbt ]
   where
-    f (DebtRecord c d a) = d ++ " owes " ++ (show a) ++ "$ to " ++ c
+    f (DebtRecord c d a) = printf "%30s : %s" (d ++ " -> " ++ c) (Budget.fmt a)
     subDbt = compress dbt
