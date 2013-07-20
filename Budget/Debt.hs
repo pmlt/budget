@@ -1,7 +1,6 @@
 module Budget.Debt where
-import Budget (Person,BudgetRecord,Budget,brOwners,brPurchaser,brAmount,fmt)
+import Budget (Person,BudgetRecord,Budget,brOwners,brPurchaser,brAmount)
 import Data.List (nub)
-import Text.Printf (printf)
 
 data DebtRecord = DebtRecord {
     drCreditor :: Person
@@ -35,7 +34,11 @@ compress dl = [ DebtRecord c d (sum' c d) | c <- creds, d <- dbts, c /= d ]
   where
     creds = nub [ drCreditor x | x <- dl ]
     dbts = nub [ drDebtor x | x <- dl ]
-    sum' c d = foldr ((+).drAmount) 0.0 [ dr | dr <- dl, c == drCreditor dr, d == drDebtor dr ]
+    sum' c d = Budget.Debt.sum [ dr | dr <- dl, c == drCreditor dr, d == drDebtor dr ]
+
+-- | Sum debt records
+sum :: Debt -> Double
+sum d = foldr ((+).drAmount) 0.0 d
 
 -- | Extract debts with specific debtor
 creditors :: Person -> Debt -> Debt
@@ -45,17 +48,19 @@ creditors p d = [ x | x <- d, p == drDebtor x ]
 debtors :: Person -> Debt -> Debt
 debtors p d = [ x | x <- d, p == drCreditor x ]
 
+-- | Extract all people involved in debts
+people :: Debt -> [Person]
+people dl = nub (creds ++ dbts)
+  where
+    creds = nub [ drCreditor x | x <- dl ]
+    dbts = nub [ drDebtor x | x <- dl ]
+
 -- | Sum amount owed by one person to another
-owed :: Person -> Person -> Debt -> Double
-owed d c dbt = foldl f 0 dbt
+owed :: Person -> Person -> Debt -> DebtRecord
+owed d c dbt = foldl f (DebtRecord c d 0) dbt
   where
     f t (DebtRecord c' d' a)
-      | c == c' && d == d' = t + a
+      | c == c' && d == d' = t { drAmount = tot + a }
+      | c == d' && d == c' = t { drAmount = tot - a } --Inverse
       | otherwise = t
-
--- | Output report
-report :: Person -> Debt -> String
-report p dbt = unlines [ f dr | dr <- subDbt ]
-  where
-    f (DebtRecord c d a) = printf "%30s : %s" (d ++ " -> " ++ c) (Budget.fmt a)
-    subDbt = compress dbt
+      where tot = drAmount t
