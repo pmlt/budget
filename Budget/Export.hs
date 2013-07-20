@@ -4,13 +4,17 @@ import Budget.Debt;
 import Text.Printf (printf)
 
 list'tags :: [Tag] -> Budget -> String
-list'tags ts b = unlines $ [ line t | t <- ts ]
-  where sumstr t = fmt $ Budget.sum $ tagged t b
-        line t = printf "%30s : %s" t (sumstr t)
+list'tags ts b = unlines $ [ report'line t (sum'tags t) | t <- ts ]
+  where sum'tags t = Budget.sum $ tagged t b
+
+report'line :: String -> Double -> String
+report'line t a = printf "%30s : %s" t (fmt a)
 
 report :: Person -> Budget -> String
 report p b =  "Revenues:\n\n" ++ revS ++
+              "\n" ++ (report'line "Total" revTotal) ++
               "\n\nExpenses:\n\n" ++ expS ++
+              "\n" ++ (report'line "Total" expTotal) ++
               "\n\nDebts:\n\n" ++ dbtS ++ "\n"
   where
     b'  = purchased p b
@@ -18,5 +22,7 @@ report p b =  "Revenues:\n\n" ++ revS ++
     ex = expenses b'
     dbt = Budget.Debt.debt b
     revS = list'tags (tags rev) rev
+    revTotal = Budget.sum rev
     expS = list'tags (tags ex) ex
-    dbtS = Budget.Debt.report dbt
+    expTotal = Budget.sum ex
+    dbtS = Budget.Debt.report p dbt

@@ -54,8 +54,8 @@ owed d c dbt = foldl f 0 dbt
       | otherwise = t
 
 -- | Output report
-report :: Debt -> String
-report dbt = unlines [ f dr | dr <- subDbt ]
+report :: Person -> Debt -> String
+report p dbt = unlines [ f dr | dr <- subDbt ]
   where
     f (DebtRecord c d a) = printf "%30s : %s" (d ++ " -> " ++ c) (Budget.fmt a)
     subDbt = compress dbt
