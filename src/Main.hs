@@ -2,46 +2,62 @@ module Main where
 import System.Environment (getArgs);
 import Budget;
 import Budget.Export;
+import Budget.Import;
 import System.Console.GetOpt;
+import Data.List
 import Text.CSV (CSV,parseCSVFromFile);
 
-data Flag = Version | Person String deriving (Eq)
+data Flag = Version
+          | Person String
+          | DesjardinsFile String
+          | VisaFile String
+          | StandardFile String
+          deriving (Eq,Show)
 
 header :: String
-header = "Usage: Budget [OPTION...] file.csv"
+header = "Usage: Budget [OPTION...] -p P -d desjardins.csv -i visa.csv -f other.csv"
 
 options :: [OptDescr Flag]
 options = 
-  [ Option ['v','?']  ["version"] (NoArg Version) "show version number"
+  [ Option ['d']      ["desjardins"] (ReqArg DesjardinsFile "DESJARDINSFILE") "desjardins exported file"
+  , Option ['i']      ["visa"] (ReqArg VisaFile "VISAFILE") "VISA exported file"
+  , Option ['f']      ["standard"] (ReqArg StandardFile "STANDARDFILE") "Standard-formatted file"
   , Option ['p']      ["person"]  (ReqArg Person "PERSON") "subject person"
+  , Option ['v','?']  ["version"] (NoArg Version) "show version number"
   ]
 
-parseOpts :: [String] -> IO ([Flag], String)
+parseOpts :: [String] -> IO [Flag]
 parseOpts argv = 
   case getOpt Permute options argv of
-    (o,[f],[]) -> return (o,f) -- Only ONE arg allowed
-    (_,_,errs) -> ioError (userError (concat errs ++ usageInfo header options))
+    (o,_,[]) -> return o
+    (_,_,errs) -> fail $ concat errs ++ usageInfo header options
 
-parseCSV :: String -> IO CSV
-parseCSV f = do
-  parseResult <- parseCSVFromFile f
-  case parseResult of
-    Left err -> ioError $ userError $ "Could not parse CSV file: " ++ (show err)
-    Right csv  -> return csv
+sortOpts :: [Flag] -> IO (Flag,[Flag])
+sortOpts opts = case partition isperson opts of
+  ([p],(f:fs)) -> return (p,f:fs)
+  ([],_)       -> fail $ "You must provide a single person!\n" ++ (usageInfo header options)
+  ((p:ps),_)   -> fail $ "You must provide a single person!\n" ++ (usageInfo header options)
+  (_,[])       -> fail $ "You must provide at least one input file!\n" ++ (usageInfo header options)
+  where isperson (Person _) = True
+        isperson _          = False
 
-parseBudget :: CSV -> IO Budget
-parseBudget csv = case mkBudgetFromCSV csv of
-  Left errors  -> ioError $ userError $ "CSV file is not a valid Budget: \n" ++ (unlines $ map show errors)
-  Right budget -> return budget
+parseBudget :: Flag -> IO Budget
+parseBudget (DesjardinsFile f) = Budget.Import.desjardins f
+parseBudget (VisaFile f)       = Budget.Import.visa f
+parseBudget (StandardFile f)   = Budget.Import.standard f
+
+compileBudget :: String -> [Flag] -> IO Budget
+compileBudget p files = do
+  budgets <- mapM parseBudget files
+  return $ concat budgets
 
 main :: IO ()
 main = do
   argv <- getArgs
-  (opts,file) <- parseOpts argv
+  opts <- parseOpts argv
   if (Version `elem` opts) then do
-      putStrLn "Budget: v. 0.1"
+      putStrLn "Budget: v. 1.0"
     else do
-      Person person <- return $ head opts
-      csv <- parseCSV file
-      budget <- parseBudget csv
+      (Person person,files) <- sortOpts opts
+      budget <- compileBudget person files
       putStrLn $ report person budget
