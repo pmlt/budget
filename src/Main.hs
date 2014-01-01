@@ -39,9 +39,9 @@ main = do
   argv <- getArgs
   (opts,file) <- parseOpts argv
   if (Version `elem` opts) then do
-    putStrLn "Budget: v. 0.1"
-  else do
-    Person person <- return $ head opts
-    csv <- parseCSV file
-    budget <- parseBudget csv
-    putStrLn $ report person budget
+      putStrLn "Budget: v. 0.1"
+    else do
+      Person person <- return $ head opts
+      csv <- parseCSV file
+      budget <- parseBudget csv
+      putStrLn $ report person budget
