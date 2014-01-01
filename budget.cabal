@@ -1,0 +1,16 @@
+name:           budget
+version:        1.0
+synopsis:       Budget management program
+author:         Philippe Milot
+license:        BSD3
+build-type:     Simple
+cabal-version:  >= 1.6
+
+executable budget
+  build-depends:    base,
+                    old-locale >= 1.0.0.5,
+                    time >= 1.4.0.1,
+                    split >= 0.2.2,
+                    csv >= 0.1.2
+  main-is:          Main.hs
+  hs-source-dirs:   src
