@@ -4,8 +4,6 @@ import Data.Either;
 import Data.List;
 import Data.List.Split;
 import Data.Char;
-import Data.Time.Calendar;
-import Data.Time.LocalTime;
 import Data.Time.Format;
 import System.Locale;
 import Text.CSV (CSV,Field,Record,parseCSVFromFile);
@@ -13,10 +11,10 @@ import Text.CSV (CSV,Field,Record,parseCSVFromFile);
 data ParseError = ParseError String deriving (Show,Eq)
 
 desjardins :: String -> IO Budget
-desjardins f = fail $ "Desjardins format is not yet supported!"
+desjardins _ = fail $ "Desjardins format is not yet supported!"
 
 visa :: String -> IO Budget
-visa f = fail $ "VISA format is not yet supported!"
+visa _ = fail $ "VISA format is not yet supported!"
 
 standard :: String -> IO Budget
 standard f = do

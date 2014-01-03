@@ -5,7 +5,6 @@ import Budget.Export;
 import Budget.Import;
 import System.Console.GetOpt;
 import Data.List
-import Text.CSV (CSV,parseCSVFromFile);
 
 data Flag = Version
           | Person String
@@ -36,7 +35,7 @@ sortOpts :: [Flag] -> IO (Flag,[Flag])
 sortOpts opts = case partition isperson opts of
   ([p],(f:fs)) -> return (p,f:fs)
   ([],_)       -> fail $ "You must provide a single person!\n" ++ (usageInfo header options)
-  ((p:ps),_)   -> fail $ "You must provide a single person!\n" ++ (usageInfo header options)
+  ((_:_),_)    -> fail $ "You must provide a single person!\n" ++ (usageInfo header options)
   (_,[])       -> fail $ "You must provide at least one input file!\n" ++ (usageInfo header options)
   where isperson (Person _) = True
         isperson _          = False
@@ -45,9 +44,10 @@ parseBudget :: Flag -> IO Budget
 parseBudget (DesjardinsFile f) = Budget.Import.desjardins f
 parseBudget (VisaFile f)       = Budget.Import.visa f
 parseBudget (StandardFile f)   = Budget.Import.standard f
+parseBudget _                  = fail "Unsupported file type!"
 
-compileBudget :: String -> [Flag] -> IO Budget
-compileBudget p files = do
+compileBudget :: [Flag] -> IO Budget
+compileBudget files = do
   budgets <- mapM parseBudget files
   return $ concat budgets
 
@@ -59,5 +59,5 @@ main = do
       putStrLn "Budget: v. 1.0"
     else do
       (Person person,files) <- sortOpts opts
-      budget <- compileBudget person files
+      budget <- compileBudget files
       putStrLn $ report person budget

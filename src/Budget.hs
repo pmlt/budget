@@ -1,18 +1,17 @@
 module Budget where
-import Data.Either;
-import Data.List;
-import Data.Time.Calendar;
-import Data.Time.LocalTime;
-import Text.Printf (printf);
+import           Data.List
+import           Data.Time.Calendar
+import           Data.Time.LocalTime
+import           Text.Printf         (printf)
 
 -- Data definitions
 data BudgetRecord = BudgetRecord {
-    brDate :: LocalTime
-  , brOwners :: [Person]
-  , brPurchaser :: Person
-  , brAmount :: Double
+    brDate        :: LocalTime
+  , brOwners      :: [Person]
+  , brPurchaser   :: Person
+  , brAmount      :: Double
   , brDescription :: String
-  , brTags :: [Tag]
+  , brTags        :: [Tag]
   } deriving (Show,Eq)
 
 type Budget = [BudgetRecord]
@@ -26,22 +25,13 @@ mkBudgetRecord = BudgetRecord (LocalTime (ModifiedJulianDay 0) midnight) [] "" 0
 
 -- | List all tags contained in Budget
 tags :: Budget -> [Tag]
-tags = tags' []
-
--- | Accumulator version of tags
-tags' :: [Tag] -> Budget -> [Tag]
-tags' acc [] = sort $ Data.List.nub acc
-tags' acc (x:xs) = tags' (acc ++ (brTags x)) xs
+tags b = sort $ Data.List.nub $ foldl f [] b
+  where f acc x = acc ++ (brTags x)
 
 -- | Sum of all amounts in Budget
 sum :: Budget -> Double
-sum = sum' 0
-
--- | Accumulator version of sum
-sum' :: Double -> Budget -> Double
-sum' acc [] = acc
-sum' acc (x:xs) = sum' (acc + (brAmount x)) xs
-
+sum = foldl f 0
+  where f acc x = acc + brAmount x
 
 -- | Extract revenues from Budget
 revenues :: Budget -> Budget
